@@ -58,17 +58,6 @@ class Detector(threading.Thread):
         self.logger = log.create_logger(
             datetime.date.today().strftime("%Y-%m-%d"))
 
-        if self.output_result:
-            self.output = skvideo.io.FFmpegWriter(
-                camera_info[u'output_path'].encode('ascii'),
-                inputdict={
-                    '-r': '1'
-                },
-                outputdict={
-                    '-r': '1'
-                })
-
-
         self.image_count = {}
 
 
