@@ -156,5 +156,5 @@ if __name__ == '__main__':
     #search_jpg(fileDir)
     #search_xml(fileDir)
 
-    filepath='/media/abc/0012-D687/双欣图片/shuangxin/jpgs'
+    filepath='/media/images'
     cutout_photo(filepath)
