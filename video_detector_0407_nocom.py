@@ -17,7 +17,7 @@ import skvideo.io
 from encoder import Encoder
 import time
 
-class VideoDetector(threading.Thread):
+class Detector(threading.Thread):
     def __init__(self, camera_info):
         super(VideoDetector, self).__init__()
         self.initialize(camera_info)
@@ -29,8 +29,8 @@ class VideoDetector(threading.Thread):
 
     def initialize(self, camera_info):
         self.detect_net = detector.load_net(
-            'resources/yolov2_sx_oldbest.cfg',
-            'resources/yolov2-voc-stone_520_500000.weights', 0)
+            'resources/yolov2.cfg',
+            'resources/yolov2.weights', 0)
 
         self.class_net = classifier.load_net(
             'resources/1th.prototxt',
@@ -91,7 +91,7 @@ class VideoDetector(threading.Thread):
   
     def save_photo(self, image,filename,num):
         date = datetime.date.today().strftime('%Y-%m-%d')
-        directory = os.path.join('/home/abc/Tracker_0706++/images/data_shuangxin', 'photo', date)
+        directory = os.path.join('images', 'photo', date)
         if not os.path.exists(directory):
             os.makedirs(directory, 0755)
 
@@ -139,7 +139,7 @@ class VideoDetector(threading.Thread):
         self.image_count[folder] += 1
 
         date = datetime.date.today().strftime('%Y-%m-%d')
-        directory = os.path.join('/home/abc/Tracker_0706++/images/data_shuangxin', folder, date)
+        directory = os.path.join('images', folder, date)
         if not os.path.exists(directory):
             os.makedirs(directory, 0755)
 
@@ -155,7 +155,7 @@ class VideoDetector(threading.Thread):
 
             start = timeit.default_timer()
             
-            filepath='/home/abc/shuangxin_image/22'
+            filepath='/home/ps/22'
 
             num = 0
             for root, dirs, files in os.walk(filepath):
@@ -228,35 +228,11 @@ class VideoDetector(threading.Thread):
                     delay = endlo - start
                     print('Delay: %.4fs' % delay)
 
-            """                     
-            if height > width:
-                width = 1500 * width / height
-                height = 1500
-            else:
-                height = 1500 * height / width
-                width = 1500
-            im_display = cv2.resize(im_display, (width, height))
-            if self.show_result:
-                try:
-                    cv2.imshow('AI Pickup', im_display)
-                except Exception, e:
-                    print e
-                    self.show_result = False
 
-            if self.output_result and self.frame_idx < 50000:
-                self.output.writeFrame(im_display)
-
-            if self.show_result and cv2.waitKey(1) == 27:
-                break
-
-            end = timeit.default_timer()
-            delay = end - start
-
-            self.logger.info('Delay: %.2fs' % delay)
-            """
+            
 
 if __name__ == '__main__':
     config = ConfigParser.ConfigParser()
-    config.read('app.config')
+    config.read('a.txt')
     camera_info = json.loads(config.get('cameras', 'camera_info'))
-    VideoDetector(camera_info[0]).start()
+    Detector(camera_info[0]).start()
